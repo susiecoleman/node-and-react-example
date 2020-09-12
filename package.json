@@ -12,22 +12,26 @@
     "build:server": "tsc",
     "start:client": "cd client && yarn start && cd ..",
     "start:server": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
-    "start:dev": "concurrently --kill-others-on-fail \"yarn start:server\" \"yarn start:client\""
+    "start:dev": "concurrently --kill-others-on-fail \"yarn start:server\" \"yarn start:client\"",
+    "test": "jest test"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.1.0",
-    "@typescript-eslint/parser": "^4.1.0",
     "body-parser": "^1.19.0",
-    "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "express": "^4.17.1",
-    "typescript": "^3.9.6"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
+    "@types/jest": "^26.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
     "concurrently": "^5.0.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
     "prettier": "^1.18.2",
-    "ts-node-dev": "^1.0.0-pre.44"
+    "ts-jest": "^26.3.0",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.9.6"
   }
 }
