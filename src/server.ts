@@ -1,9 +1,10 @@
 import * as express from 'express';
-import { Application, Request, Response } from 'express';
+import { Application, Request, Response, NextFunction } from 'express';
 import { json, urlencoded } from 'body-parser';
 import * as path from 'path';
 import { logger } from './utils/logger';
 import { getEnvVariable } from './utils/config';
+import { NameRequest } from './models';
 
 const app: Application = express();
 const port = getEnvVariable('PORT') || 5000;
@@ -15,11 +16,18 @@ app.get('/api/greet', (req: Request, res: Response) => {
   res.send({ express: 'Hello Everyone!' });
 });
 
-app.post('/api/name', (req: Request, res: Response) => {
-  logger.info(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`
-  );
+app.post('/api/name', (req: NameRequest, res: Response, next: NextFunction) => {
+  const post: string = req.body.post;
+  if (post !== undefined) {
+    res.send(
+      `I received your POST request. This is what you sent me: ${req.body.post}`
+    );
+  } else {
+    next(new Error('Body did not contain a post string'));
+  }
+  req.on('error', e => {
+    logger.info(e);
+  });
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -31,5 +39,9 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '..', 'client/build', 'index.html'));
   });
 }
+
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).send({ error: [error.message] });
+});
 
 app.listen(port, () => logger.info(`Listening on port ${port}`));
