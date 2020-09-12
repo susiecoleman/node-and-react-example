@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: API
+  version: 0.1.0
+servers:
+  - url: http://localhost:5000
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+            example: 'Something went wrong'
+      example: { 'errors': ['Something went wrong'] }
+paths:
+  /api/greet:
+    get:
+      summary: Return a welcome message
+      responses:
+        200:
+          description: Welcome message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  express:
+                    type: string
+                    example: Hello Everyone!
+                example: { express: 'Hello Everyone!' }
+        500:
+          description: There is an unexpected error on the server side.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /api/name:
+    post:
+      summary: Submit a string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post:
+                  type: string
+                  example: A post
+              example: { post: A post }
+      responses:
+        200:
+          description: A string with the request post in
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'I received your POST request. This is what you sent me: A post'
+        500:
+          description: There is an unexpected error on the server side.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }

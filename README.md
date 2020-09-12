@@ -10,6 +10,16 @@ Serving a React App from a Node backend. This is a TypeScript project but the pr
 yarn install:all
 ```
 
+## Create .env file
+
+Create a `.env` file at the root of the project containing:
+
+```
+LOG_LEVEL=
+
+PORT=
+```
+
 # Run
 
 ```
